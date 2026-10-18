@@ -712,10 +712,21 @@ Los campos de PROPIEDAD, HABITACION, INQUILINO y PAGO no cambian respecto de la 
 | 6 | 15–16 | 14/12 – 27/12 | Pruebas, correcciones y presentación final |
 
 ```mermaid
+---
+config:
+  gantt:
+    useWidth: 1800
+    barHeight: 28
+    barGap: 6
+    fontSize: 13
+    sectionFontSize: 13
+    leftPadding: 90
+---
 gantt
     title Plan de desarrollo – RentaCuarto
     dateFormat YYYY-MM-DD
     axisFormat %d/%m
+    todayMarker off
 
     section Sprint 1
     Documento de diseño y modelo ER        :s1a, 2026-10-05, 14d
