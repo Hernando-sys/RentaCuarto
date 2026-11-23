@@ -1,91 +1,31 @@
-# RentaCuarto
+# Contexto de dominio de RentaCuarto
 
-Aplicación móvil con la que un propietario registra sus habitaciones en alquiler, sus inquilinos, lo que les cobra y lo que gasta, para saber en todo momento quién debe, cuánto y cuánto deja cada propiedad.
+Este archivo resume los conceptos del negocio para mantener consistentes los nombres en el código y la documentación. La referencia principal es `docs/referencias/RentaCuarto_Proyecto_UML_Profesional.docx`, sección «Diccionario de términos».
 
-## Lenguaje
+- **Propietario / Administrador:** único usuario que opera la aplicación; gestiona propiedades, contratos, rentas y gastos.
+- **Propiedad residencial:** casa o pequeño edificio que contiene habitaciones alquiladas mensualmente.
+- **Habitación:** unidad física alquilable; su ocupación **se calcula** desde contratos, no es una columna fija.
+- **Inquilino:** responsable contractual. No inicia sesión en la aplicación.
+- **Contrato:** vincula habitación e inquilino con renta mensual, fecha inicio, primer vencimiento, fin pactado y fin real.
+- **Fecha fin pactada:** previsión informativa; no finaliza automáticamente el contrato.
+- **Fecha fin real:** fecha efectiva de cierre; puede liberar habitación y conserva el historial.
+- **Renta mensual:** obligación correspondiente a un periodo único `AAAA-MM` por contrato, con renta base congelada.
+- **Cargo por servicio:** valor adicional vinculado a una renta (agua, luz, gas, internet u otro).
+- **Abono:** pago parcial o total registrado para un contrato. Puede realizarlo un tercero.
+- **Aplicación de abono:** parte de un abono asignada a una renta; se distribuye primero a las más antiguas.
+- **Depósito en garantía:** importe pactado que se registra **separado** del recibido; se devuelve o aplica a deuda al cierre.
+- **Origen del abono:** `EFECTIVO` (dinero recibido para rentas) o `GARANTIA` (aplicación interna, no ingreso efectivo adicional).
+- **Saldo:** exigible menos abonos imputables; saldo negativo indica crédito a favor del inquilino.
+- **Estado de renta:** `PAGADA`, `PENDIENTE` o `VENCIDA`, derivado de exigible, pagos aplicados y fecha.
+- **Gasto de propiedad:** desembolso de una propiedad, clasificado por categoría y fecha.
+- **Resultado económico mensual:** abonos **efectivos** de un periodo menos gastos de la propiedad en ese periodo. No equivale a utilidad contable.
 
-### Personas
+## Arquitectura y límites
 
-**Propietario**:
-La persona que administra las propiedades y el único usuario de la aplicación, sea o no el dueño legal.
-_Evitar_: dueño, administrador, arrendador, usuario
+Kotlin + Jetpack Compose/Material 3 → ViewModel → Repository → DAO/Room → SQLite local. La aplicación no tiene aún cuentas, servidor, sincronización ni respaldo en nube. El modelo previsto es de **diez tablas** y **22 requisitos funcionales**.
 
-**Inquilino**:
-La persona responsable de un contrato. No usa la aplicación.
-_Evitar_: arrendatario, cliente, huésped
+## Enlaces de uso interno
 
-### Inmuebles
-
-**Propiedad**:
-Una casa o edificio del propietario con habitaciones que alquila como vivienda por meses.
-_Evitar_: inmueble, local, terreno
-
-**Habitación**:
-La unidad que se alquila dentro de una propiedad; está disponible u ocupada.
-_Evitar_: cuarto, unidad
-
-### Contrato
-
-**Contrato**:
-El acuerdo por el que un inquilino ocupa una habitación pagando un monto de renta mensual desde una fecha de inicio; sigue vigente hasta su fecha de fin.
-_Evitar_: alquiler, arriendo
-
-**Fecha de fin**:
-El día en que el contrato termina realmente; mientras no se registra, el contrato sigue vigente.
-
-**Fecha de fin pactada**:
-El plazo acordado al firmar; es informativa y no termina el contrato.
-_Evitar_: vencimiento del contrato
-
-**Depósito en garantía**:
-Dinero que el inquilino entrega al iniciar el contrato, igual a un número de rentas (las rentas en garantía); no forma parte del saldo.
-_Evitar_: garantía (a secas), depósito
-
-### Cobros
-
-**Cobro**:
-Todo monto que el inquilino debe pagar: una renta o un cargo por servicio.
-_Evitar_: deuda, cargo (a secas)
-
-**Renta**:
-El cobro mensual de un contrato por el monto de la renta completo, que vence cada mes el mismo día en que empezó el contrato; no hay primer mes prorrateado. Es la merced conductiva.
-_Evitar_: cuota, mensualidad, alquiler
-
-**Cargo por servicio**:
-Un cobro que el propietario registra por el consumo de un servicio de la habitación (luz, agua, gas, internet u otro), con el monto que él determina.
-_Evitar_: gasto de servicio, recargo
-
-**Estado de cobro**:
-Pagado, pendiente o vencido; resulta de aplicar los pagos a los cobros de vencimiento más antiguo primero. Un cobro no cubierto está pendiente el día de su vencimiento y vencido desde el día siguiente; no hay días de tolerancia.
-
-**Pago**:
-El abono que recibe el propietario, registrado contra un contrato y no contra un cobro en particular; puede hacerlo el inquilino o un tercero.
-_Evitar_: depósito (se confunde con el depósito en garantía)
-
-**Saldo**:
-Total de cobros de un contrato menos total de pagos; si es positivo es deuda, si es negativo es saldo a favor del inquilino.
-_Evitar_: deuda (como dato guardado), balance
-
-**Estado de cuenta**:
-La lista cronológica de cobros y pagos de un contrato con el saldo acumulado; es lo que se comparte con el inquilino.
-_Evitar_: reporte, historial
-
-**Línea del estado de cuenta**:
-Un cobro dentro del estado de cuenta, con el monto cubierto por los pagos, el monto por cobrar y su estado de cobro.
-_Evitar_: línea de cuota
-
-### Gastos
-
-**Gasto**:
-Dinero que el propietario paga por una propiedad, clasificado en una categoría de gasto.
-_Evitar_: egreso, costo
-
-**Categoría de gasto**:
-La clasificación fija de un gasto: servicios básicos, arbitrios e impuestos, mantenimiento y reparaciones, limpieza, equipamiento u otros.
-
-**Gasto de servicio**:
-Un gasto de la categoría servicios básicos: lo que el propietario paga a la empresa de luz, agua, gas o internet. No es un cargo por servicio, que es lo que el inquilino le debe al propietario.
-
-**Resultado mensual**:
-Los pagos recibidos en un mes por los contratos de una propiedad menos los gastos de esa propiedad en ese mes.
-_Evitar_: ganancia, utilidad, ingreso neto
+- [`docs/06_TRAZABILIDAD_RF.md`](docs/06_TRAZABILIDAD_RF.md): alcance y cobertura.
+- [`docs/05_REGLAS_DE_NEGOCIO.md`](docs/05_REGLAS_DE_NEGOCIO.md): RN01–RN18.
+- [`docs/07_ESTADO_Y_PENDIENTES.md`](docs/07_ESTADO_Y_PENDIENTES.md): avance real, sin confundir el UML futuro con la interfaz actual.

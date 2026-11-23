@@ -57,7 +57,7 @@ fun InicioScreen(
             Column(Modifier.weight(1f)) {
                 Text("RentaCuarto", style=MaterialTheme.typography.titleLarge,
                     color=TextoRenta)
-                TextoSecundario("Exposición: pantallas P01 a P12")
+                TextoSecundario("Gestión de propiedades y habitaciones")
             }
             IconButton(onClick=onVerAlertas) {
                 Icon(Icons.Default.Notifications, contentDescription="Ver alertas", tint=VerdeOscuro)

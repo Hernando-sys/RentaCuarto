@@ -3,14 +3,12 @@ package com.rentacuarto.data.repository
 import androidx.room.withTransaction
 import com.rentacuarto.data.local.RentaCuartoDatabase
 import com.rentacuarto.data.local.entity.ContratoEntity
+import com.rentacuarto.data.local.entity.GarantiaEntity
 import com.rentacuarto.util.DineroUtils
 import com.rentacuarto.util.FechaUtils
 import kotlinx.coroutines.flow.Flow
 
-/**
- * Exposición P01-P12: registra y finaliza contratos.
- * Garantía y adelantos solo son condiciones pactadas; no se cobran aquí.
- */
+/** Registro y cierre contractual; garantiza atomicidad con el pacto de depósito. */
 class ContratosRepository(private val database: RentaCuartoDatabase) {
     private val contratoDao = database.contratoDao()
     private val habitacionDao = database.habitacionDao()
@@ -62,12 +60,13 @@ class ContratosRepository(private val database: RentaCuartoDatabase) {
         database.withTransaction {
             require(habitacionDao.buscarPorId(habitacionId) != null) { "Selecciona una habitación válida." }
             require(inquilinoDao.buscarPorId(inquilinoId) != null) { "Selecciona un inquilino válido." }
-            // Regla conservadora del primer avance: una habitación no puede tener
-            // otro contrato sin fin real, aunque su fecha de inicio sea futura.
-            require(contratoDao.contarSinFinalizar(habitacionId) == 0) {
-                "La habitación ya tiene un contrato sin finalizar."
+            // Con fecha fin real conocida, la habitación se libera en ese día.
+            // Un contrato sin fin real no permite agendar otro contrato superpuesto.
+            val hayConflicto = contratoDao.contratosHabitacionAhora(habitacionId).any { previo ->
+                previo.fechaFinReal == null || previo.fechaFinReal > inicio.toString()
             }
-            contratoDao.insertar(
+            require(!hayConflicto) { "La habitación ya tiene un contrato que ocupa este periodo." }
+            val contratoId = contratoDao.insertar(
                 ContratoEntity(
                     habitacionId = habitacionId,
                     inquilinoId = inquilinoId,
@@ -79,8 +78,14 @@ class ContratosRepository(private val database: RentaCuartoDatabase) {
                     numeroRentasAdelantadas = numeroAdelantos
                 )
             )
-            // El depósito pactado está representado en numeroRentasGarantia;
-            // su recepción efectiva se desarrollará en la versión final.
+            if (numeroGarantias > 0) {
+                database.garantiaDao().insertar(GarantiaEntity(
+                    contratoId=contratoId.toInt(),
+                    pactadoCent=Math.multiplyExact(rentaCentimos,numeroGarantias.toLong()),
+                    recibidoCent=0L
+                ))
+            }
+            // Pacto y recepción son distintos: el alta no registra ningún cobro.
         }
     }
 }

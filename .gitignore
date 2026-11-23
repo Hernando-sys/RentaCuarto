@@ -1,16 +1,23 @@
+# Android Studio / entorno local
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-/.idea/deploymentTargetSelector.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+.gradle/
+**/build/
 local.properties
+*.log
+.DS_Store
+Thumbs.db
+# Información privada y compilados
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.jks
+*.keystore
+*.aab
+*.apk
+*.hprof
+/captures/
+.externalNativeBuild/
+.cxx/
+# Gradle wrapper y documentación sí se versionan

@@ -35,6 +35,12 @@ interface ContratoDao {
     """)
     fun habitacionesOcupadas(fecha: String): Flow<List<Int>>
 
+    @Query("SELECT * FROM contratos WHERE habitacion_id=:habitacionId ORDER BY fecha_inicio")
+    suspend fun contratosHabitacionAhora(habitacionId: Int): List<ContratoEntity>
+
+    @Query("SELECT * FROM contratos ORDER BY fecha_inicio")
+    suspend fun todosAhora(): List<ContratoEntity>
+
     @Query("SELECT * FROM contratos WHERE id=:id LIMIT 1")
     suspend fun buscarPorId(id: Int): ContratoEntity?
 

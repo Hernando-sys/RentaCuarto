@@ -38,7 +38,7 @@ private class FabricaViewModels(private val db: RentaCuartoDatabase): ViewModelP
     }
 }
 
-/** NavHost de la exposición: P01-P12 y formularios de edición. */
+/** NavHost del avance funcional: catálogo, contratos y formularios de edición. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation() {
@@ -76,7 +76,7 @@ fun AppNavigation() {
             ruta.startsWith("crearContrato/") -> "Registrar contrato"
             ruta.startsWith("detalleContrato/") -> "Detalle de contrato"
             ruta.startsWith("finalizarContrato/") -> "Finalizar contrato"
-            else -> "RentaCuarto EXPO"
+            else -> "RentaCuarto"
         }
     }
     fun irInicio() {
@@ -91,7 +91,7 @@ fun AppNavigation() {
                 TopAppBar(
                     title = { Column {
                         Text(titulo, style=MaterialTheme.typography.titleMedium, color=TextoRenta)
-                        if (esPrincipal) Text("Gestión de alquileres · Exposición",
+                        if (esPrincipal) Text("Gestión de propiedades y alquileres",
                             style=MaterialTheme.typography.bodySmall, color=GrisTexto)
                     } },
                     navigationIcon = { if (!esPrincipal) IconButton(onClick = {

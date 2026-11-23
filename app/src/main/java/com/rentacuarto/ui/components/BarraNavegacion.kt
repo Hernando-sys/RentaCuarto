@@ -15,7 +15,7 @@ import com.rentacuarto.ui.theme.*
 
 private data class Seccion(val ruta: String, val nombre: String, val icono: ImageVector)
 
-/** Tres accesos principales para el alcance P01-P12. */
+/** Accesos principales a los módulos implementados actualmente. */
 @Composable
 fun BarraNavegacion(navController: NavHostController, rutaActual: String?) {
     val secciones = listOf(

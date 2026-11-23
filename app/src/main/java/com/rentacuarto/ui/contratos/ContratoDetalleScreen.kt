@@ -65,7 +65,7 @@ fun ContratoDetalleScreen(
             TextoSecundario("Rentas pactadas en garantía: ${contrato.numeroRentasGarantia}")
             TextoSecundario("Rentas adelantadas pactadas: ${contrato.numeroRentasAdelantadas}")
         }
-        MensajeInformativo("Esta versión solo registra las condiciones del contrato. Los cobros y la liquidación de garantía pertenecen a la versión final.")
+        MensajeInformativo("Las condiciones del contrato están disponibles. La interfaz de cobros y la liquidación de garantía siguen en desarrollo.")
         if (contrato.fechaFinReal == null)
             BotonBorde("Finalizar contrato", onFinalizar,
                 Modifier.fillMaxWidth(), peligro=true)

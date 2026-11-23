@@ -1,39 +1,87 @@
-# RentaCuarto – Exposición P01 a P12
+# RentaCuarto
 
-**Proyecto Android Studio independiente** derivado de RentaCuarto V4. Solo contiene las pantallas P01–P12 y las tres pantallas de edición indispensables para el CRUD. Mantiene los estilos de Jetpack Compose de V4.
+**Sistema móvil para la gestión de habitaciones en alquiler, rentas y control económico de propiedades residenciales.**
 
-## Cómo abrir
-1. Descomprime el ZIP y abre **esta carpeta** (la que contiene `settings.gradle.kts`) con Android Studio → Open.
-2. Espera el Gradle Sync. Esta copia conserva las versiones de Gradle/AGP de la V4 original, **AGP 9.5.2**. Android Studio debe ser compatible.
-3. Selecciona módulo `app`, variante **debug** y un emulador; pulsa Run.
-4. Se instala **RentaCuarto Expo DEMO**, con identificador `com.rentacuarto.expo.demo`, distinto de la app del proyecto principal.
-5. En el primer inicio la demo inserta dos propiedades, seis habitaciones, cinco inquilinos y cuatro contratos ficticios.
+Proyecto académico de **Desarrollo de Sistemas Móviles** · UNMSM, Facultad de Ingeniería de Sistemas e Informática · Grupo 10 · 2026.
 
-## Alcance
-| Pantalla | Nombre | Archivo |
-|---|---|---|
-| P01 | Inicio (solo ocupación y propiedades) | `ui/inicio/InicioScreen.kt` |
-| P02 | Alertas de fin de contrato | `ui/inicio/AlertasScreen.kt` |
-| P03 | Propiedades | `ui/propiedades/PropiedadesScreen.kt` |
-| P04 | Registro de propiedad | `ui/propiedades/PropiedadFormScreen.kt` |
-| P05 | Detalle de propiedad y habitaciones | `ui/propiedades/PropiedadDetalleScreen.kt` |
-| P06 | Registro de habitación | `ui/propiedades/HabitacionFormScreen.kt` |
-| P07 | Inquilinos | `ui/contratos/InquilinosScreen.kt` |
-| P08 | Registro de inquilino | `ui/contratos/InquilinoFormScreen.kt` |
-| P09 | Contratos | `ui/contratos/ContratosScreen.kt` |
-| P10 | Registro de contrato | `ui/contratos/ContratoFormScreen.kt` |
-| P11 | Detalle de contrato | `ui/contratos/ContratoDetalleScreen.kt` |
-| P12 | Finalizar contrato | `ui/contratos/FinalizarContratoScreen.kt` |
+![Kotlin](https://img.shields.io/badge/Kotlin-Android-7F52FF?logo=kotlin&logoColor=white) ![Jetpack Compose](https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4) ![Room](https://img.shields.io/badge/Persistencia-Room%20%2F%20SQLite-0B766C) ![Estado](https://img.shields.io/badge/Estado-En%20desarrollo-1D4ED8)
 
-También están `ActualizarPropiedadScreen.kt`, `ActualizarHabitacionScreen.kt` y `ActualizarInquilinoScreen.kt`.
+## ¿Qué problema resuelve?
 
-## Base de datos mínima
-Cuatro tablas Room: `propiedades`, `habitaciones`, `inquilinos` y `contratos`. El proyecto usa otra base, `rentacuarto_expo.db`, y **otro applicationId**. Por eso no modifica el proyecto completo ni sus datos.
+Los propietarios de casas y pequeños edificios suelen controlar habitaciones, inquilinos y contratos con cuadernos, mensajes o hojas dispersas. **RentaCuarto** centraliza la información en un teléfono Android, calcula la ocupación desde los contratos y está diseñado para incorporar cobros, pagos, depósitos en garantía, gastos y consultas económicas.
 
-El proyecto V4 completo sigue siendo la referencia para P13–P20. Esta versión no incluye el módulo de Cobros, Gastos, garantías recibidas ni reportes económicos. La garantía en P10/P11 es **solo una condición pactada**, no un pago real.
+El propietario/administrador es el único usuario de la aplicación. **No requiere servidor, cuenta de usuario ni conexión permanente a Internet.** La información se almacena localmente con Room/SQLite.
 
-## Datos de muestra
-`app/src/debug/java/com/rentacuarto/demo/DatosExpo.kt` contiene la carga ficticia. Se ejecuta una sola vez sobre una base vacía; en reinicios posteriores conserva las modificaciones del usuario. Para reiniciar la muestra: Ajustes del teléfono → Aplicaciones → RentaCuarto Expo DEMO → Almacenamiento → Borrar datos. **No uses ese comando sobre la aplicación principal.**
+## Estado del desarrollo
 
-## Pruebas
-Consulta `docs/PRUEBAS_P01_P12.md`. No se ha compilado con el SDK real ni ejecutado en un emulador en este entorno; ejecuta Sync, Build y pruebas antes de exponer.
+El código publicado permite navegar por **Inicio, Alertas, Propiedades, Habitaciones, Inquilinos y Contratos**. Incluye registro, consulta y edición de catálogos, alta y finalización contractual y consultas de ocupación. Las pantallas principales de cobros, gastos y reportes todavía **no forman parte de la interfaz**.
+
+La capa de persistencia está **preparada con diez entidades y diez DAO**; se agregaron repositorios económicos (rentas, cargos, abonos, garantías y gastos) y una migración de Room **v1→v2**. Estas nuevas operaciones están **programadas, pero requieren compilación y pruebas integrales en Android** antes de declararse validadas.
+
+| Dominio | Disponible en interfaz | Persistencia / reglas | Estado |
+|---|---|---|---|
+| Propiedades y habitaciones | Sí | Sí | Avance funcional; falta desactivación lógica y fecha de consulta configurable |
+| Inquilinos y contratos | Sí | Sí | Avance funcional; falta completar historial en UI y alertas de deuda |
+| Ocupación y alertas contractuales | Sí | Sí | Fecha actual y alertas con umbral fijo |
+| Rentas, cargos y abonos | No | Preparada | Integración y pruebas de extremo a extremo pendientes |
+| Depósitos en garantía | No | Preparada | Recepción/liquidación pendiente de integración y auditoría completa |
+| Gastos y resultado económico | No | Preparada | Integración y pruebas pendientes |
+| Informes históricos y comparativos | No | Parcial | Pendiente |
+
+**Fuente de alcance:** [Documento UML de RentaCuarto](docs/referencias/RentaCuarto_Proyecto_UML_Profesional.docx) (22 RF; 16 RNF; 10 entidades). [Matriz de requisitos y estado](docs/06_TRAZABILIDAD_RF.md).
+
+## Inicio rápido
+
+1. Instala Android Studio compatible con el **Android Gradle Plugin** y el SDK declarado en `app/build.gradle.kts`. Revisa [Instalación](docs/02_INSTALACION.md).
+2. Clona el repositorio: `git clone https://github.com/Hernando-sys/RentaCuarto.git`.
+3. Abre la carpeta que contiene `settings.gradle.kts` (no una carpeta exterior adicional).
+4. Sincroniza Gradle; elige la configuración `app` y un emulador Android (API 24 o superior).
+5. Ejecuta la variante **debug**, que carga registros **ficticios** en su propio almacenamiento. La variante **release** no contiene el cargador de prueba.
+
+Para comprobar los tests después de sincronizar:
+
+```bash
+# Windows
+.\gradlew.bat testDebugUnitTest
+.\gradlew.bat connectedDebugAndroidTest
+
+# macOS / Linux
+./gradlew testDebugUnitTest
+./gradlew connectedDebugAndroidTest
+```
+
+Los comandos son instrucciones de ejecución, **no resultados de pruebas ya aprobadas**.
+
+## Estructura del proyecto
+
+```text
+RentaCuarto/
+├── app/src/main/java/com/rentacuarto/
+│   ├── MainActivity.kt         # Punto de entrada
+│   ├── navigation/             # Rutas y NavHost
+│   ├── ui/                     # Pantallas, ViewModels y diseño
+│   ├── data/local/             # Room: 10 Entity, 10 DAO y migración
+│   ├── data/repository/        # Reglas y transacciones de negocio
+│   └── util/                   # Conversión de dinero y fechas
+├── app/src/debug/             # Datos inventados, solo desarrollo
+├── app/src/test/              # Pruebas locales
+├── app/src/androidTest/       # Pruebas en emulador/dispositivo
+├── docs/                      # Diseño, arquitectura, requisitos y evidencia
+├── CONTRIBUTING.md            # Normas del equipo
+├── CHANGELOG.md               # Historial de entregas
+└── settings.gradle.kts        # Configuración Gradle
+```
+
+**Flujo básico:** `Pantalla Compose → ViewModel → Repository → DAO → Room/SQLite`.
+
+## Documentación
+
+Consulta el [índice completo de la documentación](docs/INDICE.md). Para entender las reglas, empieza por [Arquitectura](docs/03_ARQUITECTURA.md), [Modelo de datos](docs/04_MODELO_DE_DATOS.md) y [Reglas de negocio](docs/05_REGLAS_DE_NEGOCIO.md).
+
+Para saber exactamente qué falta, revisa el [estado y pendientes](docs/07_ESTADO_Y_PENDIENTES.md) y la [hoja de ruta](docs/10_HOJA_DE_RUTA.md).
+
+## Equipo
+
+Grupo 10: JeanCarlos Huanacuni Gomez, Álvaro Jesús Quispe Ñahui, Kevin Hernando Quispe Carbajal, Marco Alejandro Tafur Ari y Rodrigo Contreras Peña. La distribución por módulos está en [Organización del equipo](docs/11_EQUIPO_Y_GESTION.md).
+
+> **Seguridad y datos:** los nombres, DNI y teléfonos incluidos en el modo Debug son ficticios. No publiques registros de inquilinos reales, bases `.db`, contraseñas ni archivos de firma. El alcance es académico; no se afirma que existan nube, sincronización o respaldo externo implementados.
