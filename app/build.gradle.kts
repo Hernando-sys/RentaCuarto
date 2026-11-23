@@ -11,18 +11,18 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.rentacuarto.expo"
+        applicationId = "com.rentacuarto"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
-        versionName = "1.0-expo"
+        versionName = "0.4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
-            applicationIdSuffix = ".demo"
+            applicationIdSuffix = ".debug"
         }
         release {
             optimization {

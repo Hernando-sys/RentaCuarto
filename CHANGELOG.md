@@ -2,6 +2,14 @@
 
 Los cambios describen entregables de código y documentación. No se usan como sustituto de pruebas en dispositivo.
 
+## [Sin publicar] — Mantenimiento del repositorio
+
+- Normalizada la identidad Android (`com.rentacuarto`) y el nombre visible del producto.
+- Retiradas del código versionado las plantillas y clases obsoletas de demostración.
+- Añadidas las pruebas de cálculos y Room que estaban preparadas pero no publicadas en `main`.
+- Ajustados `.gitignore` y `.gitattributes` para evitar archivos locales y diferencias de salto de línea.
+- Aún falta verificar la compilación Android, las pruebas y la migración Room en dispositivo.
+
 ## [0.4.0] — Integración de datos y documentación
 
 ### Agregado

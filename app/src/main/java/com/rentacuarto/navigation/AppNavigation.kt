@@ -22,7 +22,7 @@ import com.rentacuarto.ui.inicio.*
 import com.rentacuarto.ui.propiedades.*
 import com.rentacuarto.ui.theme.*
 
-/** Solo tres repositorios: no hay módulos de pagos ni gastos en esta entrega. */
+/** Las pantallas actuales usan tres repositorios; la capa de datos económica se integra después en la interfaz. */
 private class FabricaViewModels(private val db: RentaCuartoDatabase): ViewModelProvider.Factory {
     private val propiedades = PropiedadesRepository(db)
     private val inquilinos = InquilinosRepository(db)

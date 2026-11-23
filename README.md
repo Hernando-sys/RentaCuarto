@@ -36,9 +36,9 @@ La capa de persistencia está **preparada con diez entidades y diez DAO**; se ag
 2. Clona el repositorio: `git clone https://github.com/Hernando-sys/RentaCuarto.git`.
 3. Abre la carpeta que contiene `settings.gradle.kts` (no una carpeta exterior adicional).
 4. Sincroniza Gradle; elige la configuración `app` y un emulador Android (API 24 o superior).
-5. Ejecuta la variante **debug**, que carga registros **ficticios** en su propio almacenamiento. La variante **release** no contiene el cargador de prueba.
+5. Ejecuta la variante **debug**, que carga registros **ficticios** en su propio almacenamiento. La variante **release** no contiene el cargador de prueba. El identificador de la app es `com.rentacuarto` (`com.rentacuarto.debug` en Debug); por lo tanto, no reemplaza ni importa datos de instalaciones antiguas de `com.rentacuarto.expo`.
 
-Para comprobar los tests después de sincronizar:
+Para ejecutar los tests después de sincronizar (los comandos por sí solos no demuestran resultados aprobados):
 
 ```bash
 # Windows
