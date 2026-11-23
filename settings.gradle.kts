@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "RentaCuarto"
+rootProject.name = "RentaCuarto-Expo-P01-P12"
 include(":app")
