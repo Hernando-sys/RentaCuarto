@@ -2,11 +2,13 @@
 .idea/
 *.iml
 .gradle/
+.kotlin/
 **/build/
 local.properties
 *.log
 .DS_Store
 Thumbs.db
+.vscode/
 # Información privada y compilados
 *.db
 *.db-*

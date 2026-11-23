@@ -1,6 +1,6 @@
 # 07 · Estado del proyecto y pendientes técnicos
 
-**Corte del código base:** rama `main` de `Hernando-sys/RentaCuarto` revisada tras el commit «Implementacion pantalla 12» (22/11/2026). El paquete actual agrega la capa Room económica y documentación sin afirmar ejecución en emulador.
+**Corte técnico:** commit `10fdd162` de `main` (23/11/2026), seguido por mantenimiento del repositorio para normalizar configuración, pruebas y archivos versionados. La capa Room económica está programada; la compilación Android y las pruebas instrumentadas requieren ejecución real del equipo.
 
 ## Implementado en la interfaz
 
